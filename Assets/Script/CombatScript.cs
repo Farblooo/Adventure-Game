@@ -169,8 +169,9 @@ public class CombatScript : MonoBehaviour
 
         audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
         audioSource.PlayOneShot(swordSwing);
+        audioSource.pitch = 1f;
 
-        if(attackCount == 0)
+        if (attackCount == 0)
         {
             ChangeAnimationState(ATTACK1RELEASE);
             attackCount++;
@@ -194,6 +195,7 @@ public class CombatScript : MonoBehaviour
 
         audioSource.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
         audioSource.PlayOneShot(swordSwing);
+        audioSource.pitch = 1f;
 
         if (attackCount == 0)
         {
