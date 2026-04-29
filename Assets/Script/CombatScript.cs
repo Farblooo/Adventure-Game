@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem.Controls;
@@ -48,6 +49,8 @@ public class CombatScript : MonoBehaviour
     float currentCharge = 0f;
     float chargeTime = 1f;
     float standardSpeed;
+
+    Vector3 direction;
 
 
     //==================//
@@ -253,5 +256,16 @@ public class CombatScript : MonoBehaviour
         {
             ChangeAnimationState(IDLE);
         }
+    }
+
+    IEnumerator AttackLeapAnimation()
+    {
+        Vector3 startPos = transform.position;
+        Vector3 endPos = transform.position + transform.forward * 2f;
+
+        direction = endPos - startPos;
+
+        transform.position += direction.normalized;
+        yield return null;
     }
 } 

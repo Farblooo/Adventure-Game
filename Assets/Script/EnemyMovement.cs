@@ -10,12 +10,12 @@ public class EnemyMovement : MonoBehaviour
     public Transform groundCheck;
     public Transform PlayerTransform;
     public LayerMask groundMask;
+    public float walkspeed = 5f;
 
     Vector3 PlayerPosition;
     Vector3 EnemyPosition;
     Vector3 Direction;
     Vector3 currentDirection;
-    float walkspeed = 5f;
     float Distance;
     float StrafeTimer;
     float StrafeDuration = 2f;

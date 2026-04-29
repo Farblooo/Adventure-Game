@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class EnemyCombat : MonoBehaviour
 {
+    public EnemyMovement enemyMovement;
     public Transform playerTransform;
     public GameObject hitbox;
     public float attackDelay = 0.4f;
@@ -19,6 +20,7 @@ public class EnemyCombat : MonoBehaviour
     Vector3 enemyPos;
     Vector3 playerPos;
     float Distance;
+    float normalWalkSpeed;
     bool readyToAttack = true;
     bool isAttacking = false;
 
@@ -27,6 +29,9 @@ public class EnemyCombat : MonoBehaviour
     {
         DisableHitbox();
         actor = GetComponent<Actor>();
+        enemyMovement = GetComponent<EnemyMovement>();
+
+        normalWalkSpeed = enemyMovement.walkspeed;
     }
 
     // Update is called once per frame
@@ -36,6 +41,15 @@ public class EnemyCombat : MonoBehaviour
         playerPos = playerTransform.position;
 
         Distance = (playerPos - enemyPos).magnitude;
+
+        if (!readyToAttack) //Stops enemy from walking when attacking
+        {
+            enemyMovement.walkspeed = 0f;
+        }
+        else
+        {
+            enemyMovement.walkspeed = normalWalkSpeed;
+        }
 
         if (attackThreshold <= 0f) //only resets attack threshold after a attack
         {
