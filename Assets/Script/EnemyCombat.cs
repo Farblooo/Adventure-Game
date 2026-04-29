@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class EnemyCombat : MonoBehaviour
 
     Vector3 enemyPos;
     Vector3 playerPos;
+    Vector3 direction;
     float Distance;
     float normalWalkSpeed;
     bool readyToAttack = true;
@@ -81,6 +83,7 @@ public class EnemyCombat : MonoBehaviour
         Invoke(nameof(EnableHitbox), 0.2f);
         Invoke(nameof(DisableHitbox), 0.5f);
         Invoke(nameof(ResetAttack), attackCooldown);
+        StartCoroutine(AttackLeapAnimation());
 
         aggression = 0f;
         attackThreshold = 0f;
@@ -112,7 +115,19 @@ public class EnemyCombat : MonoBehaviour
     void DisableHitbox()
     {
         hitbox.SetActive(false);
-    }    
-    
+    }
+    IEnumerator AttackLeapAnimation()
+    {
+        Vector3 startPos = transform.position;
+        Vector3 endPos = transform.position + transform.forward * 2f;
+
+        direction = endPos - startPos;
+
+        transform.position += direction.normalized;
+
+        yield return new WaitForSeconds(1f);
+
+        transform.position = startPos;
+    }
 
 }

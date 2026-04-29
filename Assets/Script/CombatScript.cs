@@ -50,8 +50,6 @@ public class CombatScript : MonoBehaviour
     float chargeTime = 1f;
     float standardSpeed;
 
-    Vector3 direction;
-
 
     //==================//
     //SWORD COLOR CHANGE//
@@ -256,16 +254,5 @@ public class CombatScript : MonoBehaviour
         {
             ChangeAnimationState(IDLE);
         }
-    }
-
-    IEnumerator AttackLeapAnimation()
-    {
-        Vector3 startPos = transform.position;
-        Vector3 endPos = transform.position + transform.forward * 2f;
-
-        direction = endPos - startPos;
-
-        transform.position += direction.normalized;
-        yield return null;
     }
 } 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Threading;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 public class PlayerActor : MonoBehaviour
 {
     public UnityEngine.UI.Image healthFill;
+    public UnityEngine.UI.Image hurtImage;
     public float maxHealth;
     public float currentHealth;
     float deathScreenFade = 0f;
@@ -17,24 +19,34 @@ public class PlayerActor : MonoBehaviour
     public AudioClip gameoverSoundEffect;
 
     AudioSource audioSource;
+    Color hurtImageColor;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        hurtImageColor = hurtImage.color;
         currentHealth = maxHealth;
+        hurtImageColor.a = 0f;
+        hurtImage.color = hurtImageColor;
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        audioSource = GetComponent<AudioSource>();
     }
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
-        healthFill.fillAmount = currentHealth / maxHealth;
+        healthFill.fillAmount = currentHealth / maxHealth; //Modify healthbar
+
+        hurtImageColor.a += 0.2f; //Indicate when take damage
+        hurtImage.color = hurtImageColor;
+
+        //StartCoroutine(HurtEffectFade());
 
         if (currentHealth > 0)
         {
@@ -76,6 +88,18 @@ public class PlayerActor : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         audioSource.PlayOneShot(gameoverSoundEffect);
+    }
+
+    IEnumerator HurtEffectFade()
+    {
+        yield return new WaitForSeconds(1f);
+        while (hurtImageColor.a > 0)
+        {
+            hurtImageColor.a -= 0.0005f * Time.deltaTime;
+            hurtImage.color = hurtImageColor;
+            hurtImageColor.a = Mathf.Clamp01(hurtImageColor.a);
+
+        }
     }
 }
 
