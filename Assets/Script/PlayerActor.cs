@@ -44,6 +44,20 @@ public class PlayerActor : MonoBehaviour
 
         healthFill.fillAmount = currentHealth / maxHealth; //Modify healthbar
 
+
+        if (currentHealth / maxHealth < 0.77 && hurtImageColor.a <= 0.3) //Hurt effect starts stronger the lower health is
+        {
+            hurtImageColor.a = 0.3f;
+        }
+        else if (currentHealth / maxHealth < 0.5 && hurtImageColor.a <= 0.5)
+        {
+            hurtImageColor.a = 0.5f;
+        }
+        else if (currentHealth / maxHealth < 0.77 && hurtImageColor.a <= 0.7)
+        {
+            hurtImageColor.a = 0.7f;
+        }
+
         hurtImageColor.a += 0.2f; //Indicate when take damage
         hurtImage.color = hurtImageColor;
 
@@ -102,7 +116,7 @@ public class PlayerActor : MonoBehaviour
         yield return new WaitForSeconds(1f);
         while (hurtImageColor.a > 0)
         {
-            hurtImageColor.a -= 0.2f * Time.deltaTime;
+            hurtImageColor.a -= 0.05f * Time.deltaTime;
             hurtImage.color = hurtImageColor;
             hurtImageColor.a = Mathf.Clamp01(hurtImageColor.a);
             yield return null;

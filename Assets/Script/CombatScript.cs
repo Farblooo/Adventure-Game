@@ -43,7 +43,7 @@ public class CombatScript : MonoBehaviour
 
     bool attacking = false;
     bool readyToAttack = true;
-    bool isCharging = false;
+    public bool isCharging = false;
     bool chargeSoundPlayed = false;
     int attackCount;
     float currentCharge = 0f;

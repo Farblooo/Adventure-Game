@@ -323,7 +323,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 71.3
+  field of view: 70
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1362,8 +1362,8 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2139956059}
   - {fileID: 1106939223}
+  - {fileID: 2139956059}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -1444,6 +1444,7 @@ GameObject:
   - component: {fileID: 1304204219}
   - component: {fileID: 1304204220}
   - component: {fileID: 1304204221}
+  - component: {fileID: 1304204222}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1555,6 +1556,7 @@ MonoBehaviour:
   swordSwing: {fileID: 8300000, guid: 578ff8f2974f38d44a82c769d4cd0696, type: 3}
   hitSound: {fileID: 8300000, guid: 425ced59cd1da654a8833484621cebe4, type: 3}
   finishChargedSound: {fileID: 8300000, guid: 3df00f50f45f23645ad4a945bec74e84, type: 3}
+  isCharging: 0
   swordRenderer: {fileID: 0}
   changeColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!82 &1304204219
@@ -1771,6 +1773,23 @@ MonoBehaviour:
   hurtSoundEffect: {fileID: 8300000, guid: 3ca12908c33b6914d9030d8814fce97f, type: 3}
   deathSoundEffect: {fileID: 8300000, guid: 90fd520eef38ab9408959373f395b034, type: 3}
   gameoverSoundEffect: {fileID: 8300000, guid: 5cd101cc7c071ca4fa3e010768820f2e, type: 3}
+--- !u!114 &1304204222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304204213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd1706e2de3fb124f8767655b49ce220, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DashScript
+  cam: {fileID: 330585545}
+  combatScript: {fileID: 1304204218}
+  playerTransform: {fileID: 1304204217}
+  dashSpeed: 50
+  dashCoolDown: 0.3
 --- !u!1 &1304993024
 GameObject:
   m_ObjectHideFlags: 0
@@ -2545,7 +2564,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2139956058}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
