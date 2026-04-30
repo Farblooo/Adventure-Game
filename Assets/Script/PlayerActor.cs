@@ -20,6 +20,7 @@ public class PlayerActor : MonoBehaviour
 
     AudioSource audioSource;
     Color hurtImageColor;
+    Coroutine hurtFadeRoutine;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,7 +47,13 @@ public class PlayerActor : MonoBehaviour
         hurtImageColor.a += 0.2f; //Indicate when take damage
         hurtImage.color = hurtImageColor;
 
-        //StartCoroutine(HurtEffectFade());
+
+        if (hurtFadeRoutine != null)
+        {
+            StopCoroutine(hurtFadeRoutine);
+        }
+
+        hurtFadeRoutine = StartCoroutine(HurtEffectFade());
 
         if (currentHealth > 0)
         {
@@ -95,10 +102,10 @@ public class PlayerActor : MonoBehaviour
         yield return new WaitForSeconds(1f);
         while (hurtImageColor.a > 0)
         {
-            hurtImageColor.a -= 0.0005f * Time.deltaTime;
+            hurtImageColor.a -= 0.2f * Time.deltaTime;
             hurtImage.color = hurtImageColor;
             hurtImageColor.a = Mathf.Clamp01(hurtImageColor.a);
-
+            yield return null;
         }
     }
 }
