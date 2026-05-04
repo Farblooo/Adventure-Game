@@ -2176,6 +2176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
   currentAttackType: 0
+  enemyRenderer: {fileID: 1407736770}
   enemyMovement: {fileID: 0}
   playerTransform: {fileID: 1304204217}
   hitbox: {fileID: 56093743}

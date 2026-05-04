@@ -9,6 +9,8 @@ public enum AttackType { Strike, Projectile};
 public class EnemyCombat : MonoBehaviour
 {
     public AttackType currentAttackType;
+    public Renderer enemyRenderer;
+    Color originalColor;
     public EnemyMovement enemyMovement;
     public Transform playerTransform;
     public GameObject hitbox;
@@ -26,6 +28,7 @@ public class EnemyCombat : MonoBehaviour
     Vector3 direction;
     float Distance;
     float normalWalkSpeed;
+    float projectileAggression;
     bool readyToAttack = true;
     bool isAttacking = false;
 
@@ -37,6 +40,8 @@ public class EnemyCombat : MonoBehaviour
         enemyMovement = GetComponent<EnemyMovement>();
 
         normalWalkSpeed = enemyMovement.walkspeed;
+
+        originalColor = enemyRenderer.material.color;
     }
 
     // Update is called once per frame
@@ -68,13 +73,20 @@ public class EnemyCombat : MonoBehaviour
         else if(Distance > 5 && Distance < 18) //if enemy is too far away then it wouldn't be aggressive at all
         {
             aggression += (Time.deltaTime / 40);
+            projectileAggression += (Time.deltaTime / 20);
         }
 
         if (aggression >= attackThreshold / 100f && Distance <= 5 && readyToAttack) //if aggression is higher than randomly generated threshold then the enemy would attack
         {
             Attack();
         }
-        
+        if (projectileAggression >= attackThreshold / 100 && Distance >= 7 && readyToAttack)
+        {
+            ProjectileAttack();
+        }
+
+
+        Debug.Log(projectileAggression);
     }
 
     void Attack()
@@ -83,13 +95,30 @@ public class EnemyCombat : MonoBehaviour
         isAttacking = true;
         readyToAttack = false;
 
-        Debug.Log("Enemy tried to attack!");
-        Invoke(nameof(EnableHitbox), 0.2f);
-        Invoke(nameof(DisableHitbox), 0.5f);
+        Debug.Log("Enemy tried to strike attack!");
+        Invoke(nameof(EnableHitbox), 0.4f);
+        Invoke(nameof(DisableHitbox), 0.6f);
         Invoke(nameof(ResetAttack), attackCooldown);
+        StartCoroutine(FlashRoutine(Color.red));
         StartCoroutine(AttackLeapAnimation());
 
         aggression = 0f;
+        attackThreshold = 0f;
+    }
+
+    void ProjectileAttack()
+    {
+        currentAttackType = AttackType.Projectile;
+        isAttacking = true;
+        readyToAttack = false;
+
+        Debug.Log("Enemy tried to throw a projectile attack!");
+        Invoke(nameof(EnableHitbox), 0.4f);
+        Invoke(nameof(DisableHitbox), 0.6f);
+        Invoke(nameof(ResetAttack), attackCooldown);
+        StartCoroutine(FlashRoutine(Color.green));
+
+        projectileAggression = 0f;
         attackThreshold = 0f;
     }
 
@@ -132,6 +161,15 @@ public class EnemyCombat : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         transform.position = startPos;
+    }
+
+    IEnumerator FlashRoutine(Color flashColor)
+    {
+        enemyRenderer.material.color = flashColor;
+
+        yield return new WaitForSeconds(2f);
+
+        enemyRenderer.material.color = originalColor;
     }
 
 }
