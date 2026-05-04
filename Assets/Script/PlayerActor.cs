@@ -7,6 +7,8 @@ using UnityEngine.UI;
 
 public class PlayerActor : MonoBehaviour
 {
+    public DashScript dashScript;
+    public EnemyCombat enemyCombat;
     public UnityEngine.UI.Image healthFill;
     public UnityEngine.UI.Image hurtImage;
     public float maxHealth;
@@ -37,8 +39,21 @@ public class PlayerActor : MonoBehaviour
     void Update()
     {
     }
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount, AttackType attackType)
     {
+        if (dashScript.isDashing == true)
+        {
+            if (dashScript.currentDashType == DashScript.dashType.sideDash && attackType == AttackType.Strike)
+            {
+                Debug.Log("Dodged a strike");
+                return;
+            }
+            else if(dashScript.currentDashType == DashScript.dashType.forwardDash)
+            {
+                Debug.Log("Dodged a attack");
+                return;
+            }
+        }
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 
@@ -90,6 +105,8 @@ public class PlayerActor : MonoBehaviour
         StartCoroutine(PlayGameoverSoundEffectDelayed());
 
         StartCoroutine(DeathScreenFadeIn());
+
+        
         //Death function
     }
 

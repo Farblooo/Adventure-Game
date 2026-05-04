@@ -4,8 +4,11 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum AttackType { Strike, Projectile};
+
 public class EnemyCombat : MonoBehaviour
 {
+    public AttackType currentAttackType;
     public EnemyMovement enemyMovement;
     public Transform playerTransform;
     public GameObject hitbox;
@@ -76,6 +79,7 @@ public class EnemyCombat : MonoBehaviour
 
     void Attack()
     {
+        currentAttackType = AttackType.Strike;
         isAttacking = true;
         readyToAttack = false;
 
@@ -95,7 +99,7 @@ public class EnemyCombat : MonoBehaviour
 
         if (Player.TryGetComponent<PlayerActor>(out PlayerActor T))
         {
-            T.TakeDamage(attackDmg);
+            T.TakeDamage(attackDmg, currentAttackType);
             Debug.Log($"Player HP: {T.currentHealth}");
         }
 

@@ -9,16 +9,16 @@ public class DashScript : MonoBehaviour
     public Transform playerTransform;
     public float dashSpeed;
     public float dashCoolDown;
+    public enum dashType {forwardDash, sideDash, backDash};
+    public dashType currentDashType;
 
-    
-    float dashDuration = 0.3f;
+    float dashDuration = 0.2f;
     float dashTimer = 0f;
     bool canDash = true;
-    bool isDashing = false;
+    public bool isDashing = false;
 
     float normalFOV = 70f;
     float dashFOV = 95f;
-    float targetFOV;
 
     float fovSpeed = 2f;
 
@@ -50,18 +50,22 @@ public class DashScript : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A)) //determine dash direction
         {
-            StartCoroutine(DashCoroutine(-playerTransform.right));
+            currentDashType = dashType.sideDash;
+            StartCoroutine(DashCoroutine(-playerTransform.right)); //left dash
         }
         else if (Input.GetKey(KeyCode.S))
         {
-            StartCoroutine(DashCoroutine(-playerTransform.forward));
+            currentDashType = dashType.backDash;
+            StartCoroutine(DashCoroutine(-playerTransform.forward));//back dash
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            StartCoroutine(DashCoroutine(playerTransform.right));
+            currentDashType = dashType.sideDash;
+            StartCoroutine(DashCoroutine(playerTransform.right));//right dash
         }
         else //if no direction is pressed then forward will be the default dash
         {
+            currentDashType = dashType.forwardDash;
             StartCoroutine(DashCoroutine(playerTransform.forward));
         }
     }

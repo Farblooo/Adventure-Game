@@ -1765,6 +1765,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 299a0c954354c72409d2eb4566ddb470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerActor
+  dashScript: {fileID: 1304204222}
+  enemyCombat: {fileID: 0}
   healthFill: {fileID: 2139956060}
   hurtImage: {fileID: 1106939224}
   maxHealth: 10
@@ -1788,8 +1790,10 @@ MonoBehaviour:
   cam: {fileID: 330585545}
   combatScript: {fileID: 1304204218}
   playerTransform: {fileID: 1304204217}
-  dashSpeed: 50
+  dashSpeed: 20
   dashCoolDown: 0.3
+  currentDashType: 0
+  isDashing: 0
 --- !u!1 &1304993024
 GameObject:
   m_ObjectHideFlags: 0
@@ -2171,6 +2175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccebb72ef9fe70a4790d758c5f5cf54f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
+  currentAttackType: 0
   enemyMovement: {fileID: 0}
   playerTransform: {fileID: 1304204217}
   hitbox: {fileID: 56093743}
