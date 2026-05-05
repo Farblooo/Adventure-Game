@@ -11,6 +11,8 @@ public class EnemyCombat : MonoBehaviour
     public AttackType currentAttackType;
     public Renderer enemyRenderer;
     Color originalColor;
+    public GameObject projectile;
+    public Transform projectileFirepoint;
     public EnemyMovement enemyMovement;
     public Transform playerTransform;
     public GameObject hitbox;
@@ -73,7 +75,7 @@ public class EnemyCombat : MonoBehaviour
         else if(Distance > 5 && Distance < 18) //if enemy is too far away then it wouldn't be aggressive at all
         {
             aggression += (Time.deltaTime / 40);
-            projectileAggression += (Time.deltaTime / 20);
+            projectileAggression += (Time.deltaTime / 10);
         }
 
         if (aggression >= attackThreshold / 100f && Distance <= 5 && readyToAttack) //if aggression is higher than randomly generated threshold then the enemy would attack
@@ -84,9 +86,6 @@ public class EnemyCombat : MonoBehaviour
         {
             ProjectileAttack();
         }
-
-
-        Debug.Log(projectileAggression);
     }
 
     void Attack()
@@ -113,8 +112,7 @@ public class EnemyCombat : MonoBehaviour
         readyToAttack = false;
 
         Debug.Log("Enemy tried to throw a projectile attack!");
-        Invoke(nameof(EnableHitbox), 0.4f);
-        Invoke(nameof(DisableHitbox), 0.6f);
+        Invoke(nameof(FireProjectile), 0.2f);
         Invoke(nameof(ResetAttack), attackCooldown);
         StartCoroutine(FlashRoutine(Color.green));
 
@@ -149,6 +147,12 @@ public class EnemyCombat : MonoBehaviour
     {
         hitbox.SetActive(false);
     }
+
+    void FireProjectile()
+    {
+        Instantiate(projectile, projectileFirepoint.position, projectileFirepoint.rotation);
+    }
+
     IEnumerator AttackLeapAnimation()
     {
         Vector3 startPos = transform.position;

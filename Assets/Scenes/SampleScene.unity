@@ -1790,7 +1790,7 @@ MonoBehaviour:
   cam: {fileID: 330585545}
   combatScript: {fileID: 1304204218}
   playerTransform: {fileID: 1304204217}
-  dashSpeed: 20
+  dashSpeed: 40
   dashCoolDown: 0.3
   currentDashType: 0
   isDashing: 0
@@ -2128,6 +2128,7 @@ Transform:
   - {fileID: 2026210718}
   - {fileID: 1126727920}
   - {fileID: 56093744}
+  - {fileID: 1691849525}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1407736773
@@ -2177,6 +2178,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
   currentAttackType: 0
   enemyRenderer: {fileID: 1407736770}
+  projectile: {fileID: 1466224992561168777, guid: f7a3e8ab16d14124082a026efb72c774, type: 3}
+  projectileFirepoint: {fileID: 1691849525}
   enemyMovement: {fileID: 0}
   playerTransform: {fileID: 1304204217}
   hitbox: {fileID: 56093743}
@@ -2186,6 +2189,37 @@ MonoBehaviour:
   attackThreshold: 0
   attackDmg: 1
   actor: {fileID: 0}
+--- !u!1 &1691849524
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1691849525}
+  m_Layer: 7
+  m_Name: Enemy projectile firepoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1691849525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1691849524}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.229, z: -2.304}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1407736772}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1785530598
 GameObject:
   m_ObjectHideFlags: 0
