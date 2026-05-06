@@ -48,7 +48,7 @@ public class PlayerActor : MonoBehaviour
                 Debug.Log("Dodged a strike");
                 return;
             }
-            else if(dashScript.currentDashType == DashScript.dashType.forwardDash)
+            else if (dashScript.currentDashType == DashScript.dashType.forwardDash)
             {
                 Debug.Log("Dodged a attack");
                 return;
@@ -106,7 +106,7 @@ public class PlayerActor : MonoBehaviour
 
         StartCoroutine(DeathScreenFadeIn());
 
-        
+
         //Death function
     }
 

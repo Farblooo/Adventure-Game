@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Data;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,7 +65,7 @@ public class EnemyCombat : MonoBehaviour
 
         if (attackThreshold <= 0f) //only resets attack threshold after a attack
         {
-            attackThreshold = Random.Range(0, 100);
+            attackThreshold = UnityEngine.Random.Range(0, 100);
         }
 
         if (Distance <= 5) //if the enemy is close then it would be more aggressive
@@ -123,6 +123,18 @@ public class EnemyCombat : MonoBehaviour
     public void OnHitPlayer(Collider Player)
     {
         if (!isAttacking) return;
+
+
+        if (Player.TryGetComponent<Playerparryandblock>(out Playerparryandblock parry))
+        {
+            if (parry.TryParry(transform.position))
+            {
+                Debug.Log("Parried a strike!");
+                isAttacking = false;
+                parry.SuccessfulParry();
+                return;
+            }
+        }
 
         if (Player.TryGetComponent<PlayerActor>(out PlayerActor T))
         {

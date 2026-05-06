@@ -1445,6 +1445,7 @@ GameObject:
   - component: {fileID: 1304204220}
   - component: {fileID: 1304204221}
   - component: {fileID: 1304204222}
+  - component: {fileID: 1304204223}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1465,6 +1466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   controller: {fileID: 1304204216}
+  dashcript: {fileID: 1304204222}
   speed: 8
   gravity: -19.62
   jumpHeight: 1.5
@@ -1790,10 +1792,24 @@ MonoBehaviour:
   cam: {fileID: 330585545}
   combatScript: {fileID: 1304204218}
   playerTransform: {fileID: 1304204217}
-  dashSpeed: 40
+  dashSpeed: 20
   dashCoolDown: 0.3
   currentDashType: 0
   isDashing: 0
+--- !u!114 &1304204223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304204213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7356fd980b989a45b03ef3b9b53b17e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Playerparryandblock
+  isParrying: 0
+  parryWindow: 0.1
 --- !u!1 &1304993024
 GameObject:
   m_ObjectHideFlags: 0
