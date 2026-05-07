@@ -1,8 +1,11 @@
 using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
 
 public class Playerparryandblock : MonoBehaviour
 {
+    public PlayerMovement playerMovement;
+    public CombatScript combatScript;
     public Camera cam;
     Animator animator;
 
@@ -14,7 +17,7 @@ public class Playerparryandblock : MonoBehaviour
     public bool canParry = true;
 
     public Renderer swordRenderer;
-    public Color colorChange = Color.azure;
+    public Color colorChange = Color.deepSkyBlue;
     Color originialColor;
     float changePercentage;
 
@@ -34,12 +37,17 @@ public class Playerparryandblock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && canParry)
+        if (Input.GetKeyDown(KeyCode.E) && canParry && combatScript.readyToAttack)
         {
             canParry = false;
             Invoke(nameof(ResetParry), parryCoolDown);
             StartCoroutine(Parry());
             Debug.Log("Tried to parry");
+        }
+
+        if (!canParry)
+        {
+            playerMovement.speed = playerMovement.speed / 3f;
         }
     }
 
@@ -74,8 +82,17 @@ public class Playerparryandblock : MonoBehaviour
     {
         deflectedProjectile = Instantiate(enemyProjectile, reflectedProjectileFirePoint.position, cam.transform.rotation);
         deflectedProjectile.TryGetComponent<EnemyProjectile>(out EnemyProjectile projectile);
+        projectile.damage += projectile.damage / 2;
         projectile.isDeflected = true;
         canParry = true;
+        isParrying = false;
+        StopAllCoroutines();
+    }
+
+    public void SuccessfulParryStrike()
+    {
+        canParry = true;
+        isParrying = false;
         StopAllCoroutines();
     }
 }

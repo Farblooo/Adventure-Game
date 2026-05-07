@@ -112,7 +112,7 @@ public class EnemyCombat : MonoBehaviour
         readyToAttack = false;
 
         Debug.Log("Enemy tried to throw a projectile attack!");
-        Invoke(nameof(FireProjectile), 0.2f);
+        Invoke(nameof(FireProjectile), 0.3f);
         Invoke(nameof(ResetAttack), attackCooldown);
         StartCoroutine(FlashRoutine(Color.green));
 
@@ -131,7 +131,7 @@ public class EnemyCombat : MonoBehaviour
             {
                 Debug.Log("Parried a strike!");
                 isAttacking = false;
-                parry.SuccessfulParry();
+                parry.SuccessfulParryStrike();
                 return;
             }
         }

@@ -43,7 +43,7 @@ public class CombatScript : MonoBehaviour
     public AudioClip finishChargedSound;
 
     bool attacking = false;
-    bool readyToAttack = true;
+    public bool readyToAttack = true;
     public bool isCharging = false;
     bool chargeSoundPlayed = false;
     int attackCount;

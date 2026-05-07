@@ -1560,6 +1560,7 @@ MonoBehaviour:
   swordSwing: {fileID: 8300000, guid: 578ff8f2974f38d44a82c769d4cd0696, type: 3}
   hitSound: {fileID: 8300000, guid: 425ced59cd1da654a8833484621cebe4, type: 3}
   finishChargedSound: {fileID: 8300000, guid: 3df00f50f45f23645ad4a945bec74e84, type: 3}
+  readyToAttack: 1
   isCharging: 0
   swordRenderer: {fileID: 0}
   changeColor: {r: 1, g: 0, b: 0, a: 1}
@@ -1810,6 +1811,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7356fd980b989a45b03ef3b9b53b17e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Playerparryandblock
+  playerMovement: {fileID: 1304204214}
+  combatScript: {fileID: 1304204218}
   cam: {fileID: 330585545}
   isParrying: 0
   parryWindow: 0.3
