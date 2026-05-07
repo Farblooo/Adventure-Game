@@ -85,11 +85,11 @@ public class EnemyMovement : MonoBehaviour
 
         moveTimer -= Time.deltaTime;
 
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask); //make sure the enemy is grounded
-        if (!isGrounded)
-        {
-            EnemyPosition.y -= 0.1f;
-        }
+        //isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask); //make sure the enemy is grounded
+        //if (!isGrounded)
+        //{
+           // EnemyPosition.y -= 0.1f;
+        //}
 
         transform.position = EnemyPosition;
 

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Playerparryandblock : MonoBehaviour
 {
+    public Camera cam;
     Animator animator;
 
     public bool isParrying = false;
@@ -20,6 +21,7 @@ public class Playerparryandblock : MonoBehaviour
     public GameObject enemyProjectile;
     GameObject deflectedProjectile;
 
+    public Transform reflectedProjectileFirePoint;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -70,7 +72,7 @@ public class Playerparryandblock : MonoBehaviour
 
     public void SuccessfulParry()
     {
-        deflectedProjectile = Instantiate(enemyProjectile, transform.position, transform.rotation);
+        deflectedProjectile = Instantiate(enemyProjectile, reflectedProjectileFirePoint.position, cam.transform.rotation);
         deflectedProjectile.TryGetComponent<EnemyProjectile>(out EnemyProjectile projectile);
         projectile.isDeflected = true;
         canParry = true;

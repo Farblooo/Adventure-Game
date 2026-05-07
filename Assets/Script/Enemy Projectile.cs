@@ -31,8 +31,8 @@ public class EnemyProjectile : MonoBehaviour
                 other.TryGetComponent<Playerparryandblock>(out Playerparryandblock parry);
                 if (parry.TryParry(transform.position))
                 {
-                    parry.SuccessfulParry();
                     parry.enemyProjectile = gameObject;
+                    parry.SuccessfulParry();
                     Debug.Log("Parried a projectile!");
                     Destroy(gameObject);
                     return;
@@ -42,11 +42,12 @@ public class EnemyProjectile : MonoBehaviour
             Destroy(gameObject);
         }
 
-        else if (other.CompareTag("Enemy") && isDeflected)
+        if (other.CompareTag("Enemy") && isDeflected)
         {
             if (other.TryGetComponent<Actor>(out Actor enemy))
             {
                 enemy.TakeDamage(damage);
+                Destroy(gameObject);
             }
         }
     }

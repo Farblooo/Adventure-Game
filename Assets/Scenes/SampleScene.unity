@@ -356,6 +356,7 @@ Transform:
   m_Children:
   - {fileID: 1304993025}
   - {fileID: 2129009196}
+  - {fileID: 1331729616}
   m_Father: {fileID: 1304204217}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &330585547
@@ -1809,12 +1810,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7356fd980b989a45b03ef3b9b53b17e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Playerparryandblock
+  cam: {fileID: 330585545}
   isParrying: 0
   parryWindow: 0.3
   canParry: 1
   swordRenderer: {fileID: 0}
   colorChange: {r: 0.9411765, g: 1, b: 1, a: 1}
   enemyProjectile: {fileID: 0}
+  reflectedProjectileFirePoint: {fileID: 1331729616}
 --- !u!1 &1304993024
 GameObject:
   m_ObjectHideFlags: 0
@@ -2031,6 +2034,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1331729615
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1331729616}
+  m_Layer: 0
+  m_Name: Deflected projectile fire point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1331729616
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1331729615}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -1.3169999, z: 3.6743927}
+  m_LocalScale: {x: 1.2, y: 1.8, z: 1.2}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 330585546}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1407736768
 GameObject:
   m_ObjectHideFlags: 0
@@ -2046,6 +2080,7 @@ GameObject:
   - component: {fileID: 1407736773}
   - component: {fileID: 1407736774}
   - component: {fileID: 1407736775}
+  - component: {fileID: 1407736776}
   m_Layer: 7
   m_Name: Testing_Dummy
   m_TagString: Enemy
@@ -2210,6 +2245,33 @@ MonoBehaviour:
   attackThreshold: 0
   attackDmg: 1
   actor: {fileID: 0}
+--- !u!54 &1407736776
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407736768}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1691849524
 GameObject:
   m_ObjectHideFlags: 0
