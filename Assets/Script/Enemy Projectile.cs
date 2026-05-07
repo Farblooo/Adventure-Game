@@ -7,6 +7,9 @@ public class EnemyProjectile : MonoBehaviour
     public float projectileSpeed;
     public float projectileLifetime;
     public int damage;
+
+
+    public bool isDeflected = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,7 +24,7 @@ public class EnemyProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && !isDeflected)
         {
             if (other.TryGetComponent<PlayerActor>(out PlayerActor player))
             {
@@ -29,6 +32,7 @@ public class EnemyProjectile : MonoBehaviour
                 if (parry.TryParry(transform.position))
                 {
                     parry.SuccessfulParry();
+                    parry.enemyProjectile = gameObject;
                     Debug.Log("Parried a projectile!");
                     Destroy(gameObject);
                     return;
@@ -36,6 +40,14 @@ public class EnemyProjectile : MonoBehaviour
                 player.TakeDamage(damage, AttackType.Projectile);
             }
             Destroy(gameObject);
+        }
+
+        else if (other.CompareTag("Enemy") && isDeflected)
+        {
+            if (other.TryGetComponent<Actor>(out Actor enemy))
+            {
+                enemy.TakeDamage(damage);
+            }
         }
     }
 }

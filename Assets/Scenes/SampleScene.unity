@@ -1547,6 +1547,7 @@ MonoBehaviour:
   windupAudioSource: {fileID: 1304204220}
   audioSource: {fileID: 1304204219}
   playerMovement: {fileID: 0}
+  playerParryandblock: {fileID: 1304204223}
   attackDistance: 3
   attackDelay: 0.4
   attackSpeed: 1.2
@@ -1809,7 +1810,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Playerparryandblock
   isParrying: 0
-  parryWindow: 0.1
+  parryWindow: 0.3
+  canParry: 1
+  swordRenderer: {fileID: 0}
+  colorChange: {r: 0.9411765, g: 1, b: 1, a: 1}
+  enemyProjectile: {fileID: 0}
 --- !u!1 &1304993024
 GameObject:
   m_ObjectHideFlags: 0
@@ -2043,7 +2048,7 @@ GameObject:
   - component: {fileID: 1407736775}
   m_Layer: 7
   m_Name: Testing_Dummy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

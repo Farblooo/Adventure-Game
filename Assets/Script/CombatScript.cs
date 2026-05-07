@@ -10,6 +10,7 @@ public class CombatScript : MonoBehaviour
     public AudioSource windupAudioSource;
     public AudioSource audioSource;
     public PlayerMovement playerMovement;
+    public Playerparryandblock playerParryandblock;
 
     //=========//
     //ANIMATION//
@@ -143,7 +144,7 @@ public class CombatScript : MonoBehaviour
             swordRenderer.material.EnableKeyword("_EMISSION");
             swordRenderer.material.SetColor("_EmissionColor", changeColor * chargePercentage * 1.8f);
         }
-        else
+        else if (!playerParryandblock.isParrying)
         {
             swordRenderer.material.color = originalColor;
             swordRenderer.material.SetColor("_EmissionColor", Color.black);

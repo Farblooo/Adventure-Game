@@ -7,15 +7,26 @@ public class Playerparryandblock : MonoBehaviour
 
     public bool isParrying = false;
 
-    public float parryWindow = 0.1f;
-    public const string PARRY = "Player_sword_parry";
+    public float parryWindow = 1f;
 
     float parryCoolDown = 1.5f;
     public bool canParry = true;
+
+    public Renderer swordRenderer;
+    public Color colorChange = Color.azure;
+    Color originialColor;
+    float changePercentage;
+
+    public GameObject enemyProjectile;
+    GameObject deflectedProjectile;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
+
+        swordRenderer = transform.Find("Main Camera/hand and sword with animations/Cube.001")?.GetComponent<SkinnedMeshRenderer>();
+        originialColor = swordRenderer.material.color;
     }
 
     // Update is called once per frame
@@ -37,8 +48,10 @@ public class Playerparryandblock : MonoBehaviour
 
     IEnumerator Parry()
     {
-        animator.CrossFadeInFixedTime(PARRY, 0.2f);
         isParrying = true;
+
+        swordRenderer.material.EnableKeyword("_EMISSION");
+        swordRenderer.material.SetColor("_EmissionColor", colorChange);
 
         yield return new WaitForSeconds(parryWindow);
 
@@ -57,6 +70,9 @@ public class Playerparryandblock : MonoBehaviour
 
     public void SuccessfulParry()
     {
+        deflectedProjectile = Instantiate(enemyProjectile, transform.position, transform.rotation);
+        deflectedProjectile.TryGetComponent<EnemyProjectile>(out EnemyProjectile projectile);
+        projectile.isDeflected = true;
         canParry = true;
         StopAllCoroutines();
     }
