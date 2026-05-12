@@ -7,6 +7,8 @@ public class Playerparryandblock : MonoBehaviour
     public PlayerMovement playerMovement;
     public CombatScript combatScript;
     public Camera cam;
+    public AudioSource audioSource;
+    public AudioClip parrySoundEffect;
     Animator animator;
 
     public bool isParrying = false;
@@ -87,6 +89,8 @@ public class Playerparryandblock : MonoBehaviour
         canParry = true;
         isParrying = false;
         StopAllCoroutines();
+        StartCoroutine(ParrySlowDown());
+        audioSource.PlayOneShot(parrySoundEffect);
     }
 
     public void SuccessfulParryStrike()
@@ -94,5 +98,14 @@ public class Playerparryandblock : MonoBehaviour
         canParry = true;
         isParrying = false;
         StopAllCoroutines();
+        StartCoroutine(ParrySlowDown());
+        audioSource.PlayOneShot(parrySoundEffect);
+    }
+
+    IEnumerator ParrySlowDown()
+    {
+        Time.timeScale = 0.5f;
+        yield return new WaitForSeconds(1f);
+        Time.timeScale = 1f;
     }
 }

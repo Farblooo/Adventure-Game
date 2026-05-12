@@ -1992,6 +1992,8 @@ MonoBehaviour:
   playerMovement: {fileID: 1304204214}
   combatScript: {fileID: 1304204218}
   cam: {fileID: 330585545}
+  audioSource: {fileID: 1304204219}
+  parrySoundEffect: {fileID: 8300000, guid: a25e2dd2b4d3055469c02bfc1a7a373f, type: 3}
   isParrying: 0
   parryWindow: 0.3
   canParry: 1
