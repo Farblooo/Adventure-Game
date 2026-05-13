@@ -1,10 +1,11 @@
 using System;
 using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum AttackType { Strike, Projectile};
+public enum AttackType {Strike, Projectile};
 
 public class EnemyCombat : MonoBehaviour
 {
@@ -34,6 +35,18 @@ public class EnemyCombat : MonoBehaviour
     bool readyToAttack = true;
     bool isAttacking = false;
 
+    //------//
+    //TEMPER//
+    //------//
+
+    float temper = 1f;
+    public Image temperFill;
+
+    //-------//
+    //TESTING//
+    //-------//
+    public Image aggroFill;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,11 +57,17 @@ public class EnemyCombat : MonoBehaviour
         normalWalkSpeed = enemyMovement.walkspeed;
 
         originalColor = enemyRenderer.material.color;
+
+        temperFill.fillAmount = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (temper < 1f) { temper = 1f; } //making sure temper doesn't go below 1
+        if (temper > 2f) { temper = 2f; } //making sure temper doesn't go above 2
+        
+
         enemyPos = transform.position;
         playerPos = playerTransform.position;
 
@@ -70,12 +89,12 @@ public class EnemyCombat : MonoBehaviour
 
         if (Distance <= 5) //if the enemy is close then it would be more aggressive
         {
-            aggression += (Time.deltaTime / 10);
+            aggression += (Time.deltaTime / 10 * temper);
         }
         else if(Distance > 5 && Distance < 18) //if enemy is too far away then it wouldn't be aggressive at all
         {
-            aggression += (Time.deltaTime / 40);
-            projectileAggression += (Time.deltaTime / 10);
+            aggression += (Time.deltaTime / 40 * temper);
+            projectileAggression += (Time.deltaTime / 10 * temper);
         }
 
         if (aggression >= attackThreshold / 100f && Distance <= 5 && readyToAttack) //if aggression is higher than randomly generated threshold then the enemy would attack
@@ -86,6 +105,11 @@ public class EnemyCombat : MonoBehaviour
         {
             ProjectileAttack();
         }
+
+        aggroFill.fillAmount = aggression;
+
+        temperFill.fillAmount = temper - 1f;
+
     }
 
     void Attack()
@@ -95,10 +119,10 @@ public class EnemyCombat : MonoBehaviour
         readyToAttack = false;
 
         Debug.Log("Enemy tried to strike attack!");
-        Invoke(nameof(EnableHitbox), 0.4f);
-        Invoke(nameof(DisableHitbox), 0.6f);
+        Invoke(nameof(EnableHitbox), 0.4f); //attack takes 0.4 second to come out and attack stay active for 0.2 second
+        Invoke(nameof(DisableHitbox), 0.6f); //disable attack after 0.2 second
         Invoke(nameof(ResetAttack), attackCooldown);
-        StartCoroutine(FlashRoutine(Color.red));
+        StartCoroutine(FlashRoutine(Color.red)); //indicate when enemy attack
         StartCoroutine(AttackLeapAnimation());
 
         aggression = 0f;
@@ -112,7 +136,7 @@ public class EnemyCombat : MonoBehaviour
         readyToAttack = false;
 
         Debug.Log("Enemy tried to throw a projectile attack!");
-        Invoke(nameof(FireProjectile), 0.3f);
+        Invoke(nameof(FireProjectile), 0.3f); //projectile takes 0.3 seconds to come out
         Invoke(nameof(ResetAttack), attackCooldown);
         StartCoroutine(FlashRoutine(Color.green));
 
@@ -120,18 +144,19 @@ public class EnemyCombat : MonoBehaviour
         attackThreshold = 0f;
     }
 
-    public void OnHitPlayer(Collider Player)
+    public void OnHitPlayer(Collider Player) //if hitbox collides with player while active
     {
         if (!isAttacking) return;
 
 
-        if (Player.TryGetComponent<Playerparryandblock>(out Playerparryandblock parry))
+        if (Player.TryGetComponent<Playerparryandblock>(out Playerparryandblock parry)) //if player is parrying
         {
-            if (parry.TryParry(transform.position))
+            if (parry.TryParry(transform.position)) //detect if the parry is valid
             {
                 Debug.Log("Parried a strike!");
                 isAttacking = false;
                 parry.SuccessfulParryStrike();
+                ModifyTemper(0.3f);
                 return;
             }
         }
@@ -139,6 +164,7 @@ public class EnemyCombat : MonoBehaviour
         if (Player.TryGetComponent<PlayerActor>(out PlayerActor T))
         {
             T.TakeDamage(attackDmg, currentAttackType);
+            ModifyTemper(-0.1f);
             Debug.Log($"Player HP: {T.currentHealth}");
         }
 
@@ -186,6 +212,11 @@ public class EnemyCombat : MonoBehaviour
         yield return new WaitForSeconds(2f);
 
         enemyRenderer.material.color = originalColor;
+    }
+
+    public void ModifyTemper(float amount)
+    {
+        temper += amount;
     }
 
 }

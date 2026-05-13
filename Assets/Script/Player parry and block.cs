@@ -27,6 +27,11 @@ public class Playerparryandblock : MonoBehaviour
     GameObject deflectedProjectile;
 
     public Transform reflectedProjectileFirePoint;
+
+
+    float finalParryTimeScale = 1f;
+    float startParryTimeScale = 0.5f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -104,8 +109,17 @@ public class Playerparryandblock : MonoBehaviour
 
     IEnumerator ParrySlowDown()
     {
-        Time.timeScale = 0.5f;
-        yield return new WaitForSeconds(1f);
+        float elapsed = 0f;
+
+        while (elapsed < 1f)
+        {
+            elapsed += Time.unscaledDeltaTime;
+
+            Time.timeScale = Mathf.Lerp(startParryTimeScale, finalParryTimeScale, elapsed / 1f);
+            yield return null;
+        }
+
         Time.timeScale = 1f;
+
     }
 }
