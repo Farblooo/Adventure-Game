@@ -32,7 +32,7 @@ public class CombatScript : MonoBehaviour
     //=========//
     [Header("Attacking")]
     public float attackDistance = 3f;
-    public float attackDelay = 0.4f;
+    public float attackDelay = 0.2f;
     public float attackSpeed = 1f;
     public int attackDmg = 0;
     public LayerMask attackLayer;

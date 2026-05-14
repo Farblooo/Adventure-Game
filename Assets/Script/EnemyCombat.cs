@@ -39,7 +39,7 @@ public class EnemyCombat : MonoBehaviour
     //TEMPER//
     //------//
 
-    float temper = 1f;
+    public float temper = 1f;
     public Image temperFill;
 
     //-------//

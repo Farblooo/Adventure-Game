@@ -32,6 +32,12 @@ public class Playerparryandblock : MonoBehaviour
     float finalParryTimeScale = 1f;
     float startParryTimeScale = 0.5f;
 
+    //--------//
+    //BLOCKING//
+    //--------//
+
+    public bool blocking = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -55,6 +61,13 @@ public class Playerparryandblock : MonoBehaviour
         if (!canParry)
         {
             playerMovement.speed = playerMovement.speed / 3f;
+        }
+
+        if (Input.GetKey(KeyCode.Mouse1) && canParry && combatScript.readyToAttack)
+        {
+            blocking = true;
+            swordRenderer.material.EnableKeyword("_EMISSION");
+            swordRenderer.material.SetColor("_EmissionColor", Color.brown);
         }
     }
 
@@ -122,4 +135,9 @@ public class Playerparryandblock : MonoBehaviour
         Time.timeScale = 1f;
 
     }
+
+    //--------//
+    //BLOCKING//
+    //--------//
+
 }

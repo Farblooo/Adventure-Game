@@ -1,15 +1,25 @@
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class SettingandPause : MonoBehaviour
 {
+    [Header("Pause")]
     public UnityEngine.UI.Image pauseScreenImage;
     Color pauseScreenImageColor;
+
+    [Header("Master volume")]
+    public AudioMixer audioMixer;
+    public Slider masterVolumeSlider;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         pauseScreenImageColor.a = 0f;
         pauseScreenImage.color = pauseScreenImageColor;
+
+        masterVolumeSlider.onValueChanged.AddListener(SetVolume);
     }
 
     // Update is called once per frame
@@ -29,5 +39,11 @@ public class SettingandPause : MonoBehaviour
             pauseScreenImageColor.a = 0f;
             pauseScreenImage.color = pauseScreenImageColor;
         }
+    }
+
+    public void SetVolume(float volume)
+    {
+        volume = Mathf.Clamp(volume, 0.0001f, 1f);
+        audioMixer.SetFloat("Master Volume", Mathf.Log10(volume * 20));
     }
 }

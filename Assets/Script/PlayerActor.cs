@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class PlayerActor : MonoBehaviour
 {
     public DashScript dashScript;
-    public EnemyCombat enemyCombat;
+    public Playerparryandblock playerparryandblock;
     public UnityEngine.UI.Image healthFill;
     public UnityEngine.UI.Image hurtImage;
     public float maxHealth;
@@ -42,6 +42,10 @@ public class PlayerActor : MonoBehaviour
     }
     public void TakeDamage(int amount, AttackType attackType)
     {
+        if (playerparryandblock.blocking)
+        {
+            amount = amount / 3;
+        }
         if (dashScript.isDashing == true)
         {
             if (dashScript.currentDashType == DashScript.dashType.sideDash && attackType == AttackType.Strike)

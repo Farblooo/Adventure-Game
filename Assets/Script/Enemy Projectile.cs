@@ -49,6 +49,10 @@ public class EnemyProjectile : MonoBehaviour
                 enemy.TakeDamage(damage);
                 Destroy(gameObject);
             }
+            if (other.TryGetComponent<EnemyCombat>(out EnemyCombat enemycombat))
+            {
+                enemycombat.temper += 0.35f;
+            }
         }
     }
 }
