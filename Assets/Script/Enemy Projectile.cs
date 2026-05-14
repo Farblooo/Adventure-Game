@@ -52,6 +52,7 @@ public class EnemyProjectile : MonoBehaviour
             if (other.TryGetComponent<EnemyCombat>(out EnemyCombat enemycombat))
             {
                 enemycombat.temper += 0.35f;
+                enemycombat.RestartTemperReduction();
             }
         }
     }

@@ -9,6 +9,8 @@ public enum AttackType {Strike, Projectile};
 
 public class EnemyCombat : MonoBehaviour
 {
+    private Coroutine TemperRegenRoutine;
+
     public AttackType currentAttackType;
     public Renderer enemyRenderer;
     Color originalColor;
@@ -106,8 +108,9 @@ public class EnemyCombat : MonoBehaviour
             ProjectileAttack();
         }
 
-        aggroFill.fillAmount = aggression;
+        temper -= 0.02f * Time.deltaTime;
 
+        aggroFill.fillAmount = aggression;
         temperFill.fillAmount = temper - 1f;
 
     }
@@ -157,6 +160,7 @@ public class EnemyCombat : MonoBehaviour
                 isAttacking = false;
                 parry.SuccessfulParryStrike();
                 ModifyTemper(0.3f);
+                RestartTemperReduction();
                 return;
             }
         }
@@ -164,8 +168,26 @@ public class EnemyCombat : MonoBehaviour
         if (Player.TryGetComponent<PlayerActor>(out PlayerActor T))
         {
             T.TakeDamage(attackDmg, currentAttackType);
-            ModifyTemper(-0.1f);
+            if (parry.blocking) 
+            { 
+                ModifyTemper(-0.3f);
+                RestartTemperReduction();
+            }
+            else 
+            { 
+                ModifyTemper(-0.1f);
+                RestartTemperReduction();
+            }
             Debug.Log($"Player HP: {T.currentHealth}");
+        }
+
+        if (Player.TryGetComponent<DashScript>(out DashScript dashscript))
+        {
+            if (dashscript.isDashing == true)
+            {
+                ModifyTemper(0.2f);
+                RestartTemperReduction();
+            }
         }
 
         isAttacking= false;
@@ -217,6 +239,25 @@ public class EnemyCombat : MonoBehaviour
     public void ModifyTemper(float amount)
     {
         temper += amount;
+    }
+
+    public void RestartTemperReduction()
+    {
+        if (TemperRegenRoutine != null)
+        {
+            StopCoroutine(TemperRegenRoutine);
+        }
+        TemperRegenRoutine = StartCoroutine(PassiveTemperReduction());
+    }
+
+    public IEnumerator PassiveTemperReduction()
+    {
+        yield return new WaitForSeconds(2f);
+        while (true)
+        {
+            temper -= 0.02f * Time.deltaTime;
+            yield return null;
+        }
     }
 
 }

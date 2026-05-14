@@ -95,7 +95,7 @@ public class Playerparryandblock : MonoBehaviour
         Vector3 direction = (attackPos - transform.position).normalized;
         float dot = Vector3.Dot(transform.forward, direction);
 
-        return dot > 0.5f;
+        return dot > 0.35f;
     }
 
     public void SuccessfulParry()

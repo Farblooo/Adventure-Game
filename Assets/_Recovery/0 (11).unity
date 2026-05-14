@@ -1903,7 +1903,7 @@ AudioSource:
   m_GameObject: {fileID: 1304204213}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 2949bc1adb483ea48a470b7c382e73dc, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
@@ -2000,7 +2000,7 @@ AudioSource:
   m_GameObject: {fileID: 1304204213}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: 2949bc1adb483ea48a470b7c382e73dc, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 7b13bb5ff98b93344b1f7f6ea54515a8, type: 3}
   m_PlayOnAwake: 1
@@ -2147,7 +2147,7 @@ MonoBehaviour:
   audioSource: {fileID: 1304204219}
   parrySoundEffect: {fileID: 8300000, guid: bc35530b8b098f1478cf3b2b2b4a21cc, type: 3}
   isParrying: 0
-  parryWindow: 0.3
+  parryWindow: 0.35
   canParry: 1
   swordRenderer: {fileID: 0}
   colorChange: {r: 0.9411765, g: 1, b: 1, a: 1}

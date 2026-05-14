@@ -2101,7 +2101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerActor
   dashScript: {fileID: 1304204222}
-  playerparryandblock: {fileID: 1304204223}
+  enemyCombat: {fileID: 0}
   healthFill: {fileID: 2139956060}
   hurtImage: {fileID: 1106939224}
   maxHealth: 10
@@ -2153,7 +2153,6 @@ MonoBehaviour:
   colorChange: {r: 0.9411765, g: 1, b: 1, a: 1}
   enemyProjectile: {fileID: 0}
   reflectedProjectileFirePoint: {fileID: 1331729616}
-  blocking: 0
 --- !u!114 &1304204224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2167,8 +2166,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingandPause
   pauseScreenImage: {fileID: 413601832}
-  audioMixer: {fileID: 0}
-  masterVolumeSlider: {fileID: 0}
 --- !u!1 &1304993024
 GameObject:
   m_ObjectHideFlags: 0
@@ -2550,7 +2547,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b50ee333a3207dd449abd06f920c54a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Actor
-  enemyCombat: {fileID: 1407736775}
   healthFill: {fileID: 31912081}
   currentHealth: 0
   maxHealth: 10
@@ -2597,7 +2593,6 @@ MonoBehaviour:
   attackThreshold: 0
   attackDmg: 1
   actor: {fileID: 0}
-  temper: 1
   temperFill: {fileID: 306055751}
   aggroFill: {fileID: 874994743}
 --- !u!54 &1407736776

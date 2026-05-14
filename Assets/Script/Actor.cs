@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 public class Actor : MonoBehaviour
 {
+    public EnemyCombat enemyCombat;
     public UnityEngine.UI.Image healthFill;
     public float currentHealth;
     public float maxHealth;
@@ -22,6 +23,10 @@ public class Actor : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        float floatAmount = amount;
+        enemyCombat.ModifyTemper(floatAmount * 0.05f);
+        enemyCombat.RestartTemperReduction();
+
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 

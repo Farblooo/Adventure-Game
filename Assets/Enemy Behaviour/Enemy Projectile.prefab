@@ -69,9 +69,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c21f8476c7436b4289a1413750dbd28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyProjectile
-  projectileSpeed: 120
+  playerParryandBlock: {fileID: 0}
+  projectileSpeed: 90
   projectileLifetime: 3
   damage: 1
+  isDeflected: 0
 --- !u!1 &6915757329847634768
 GameObject:
   m_ObjectHideFlags: 0
