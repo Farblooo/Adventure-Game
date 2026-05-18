@@ -2599,6 +2599,7 @@ MonoBehaviour:
   actor: {fileID: 0}
   temper: 1
   temperFill: {fileID: 306055751}
+  isEnraged: 0
   aggroFill: {fileID: 874994743}
 --- !u!54 &1407736776
 Rigidbody:

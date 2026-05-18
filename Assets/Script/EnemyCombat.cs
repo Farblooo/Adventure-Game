@@ -43,6 +43,8 @@ public class EnemyCombat : MonoBehaviour
 
     public float temper = 1f;
     public Image temperFill;
+    public bool isEnraged = false;
+    Coroutine passiveTemperReductionCoroutine;
 
     //-------//
     //TESTING//
@@ -68,7 +70,13 @@ public class EnemyCombat : MonoBehaviour
     {
         if (temper < 1f) { temper = 1f; } //making sure temper doesn't go below 1
         if (temper > 2f) { temper = 2f; } //making sure temper doesn't go above 2
-        
+        if (temper >= 1.5f && !isEnraged)
+        {
+            Debug.Log("Is enraged!");
+            StartCoroutine(Enraged());
+            if (TemperRegenRoutine != null)
+                StopCoroutine(TemperRegenRoutine);
+        }
 
         enemyPos = transform.position;
         playerPos = playerTransform.position;
@@ -107,8 +115,6 @@ public class EnemyCombat : MonoBehaviour
         {
             ProjectileAttack();
         }
-
-        temper -= 0.02f * Time.deltaTime;
 
         aggroFill.fillAmount = aggression;
         temperFill.fillAmount = temper - 1f;
@@ -159,7 +165,7 @@ public class EnemyCombat : MonoBehaviour
                 Debug.Log("Parried a strike!");
                 isAttacking = false;
                 parry.SuccessfulParryStrike();
-                ModifyTemper(0.3f);
+                ModifyTemper(1f);
                 RestartTemperReduction();
                 return;
             }
@@ -238,6 +244,7 @@ public class EnemyCombat : MonoBehaviour
 
     public void ModifyTemper(float amount)
     {
+        if (isEnraged) { return; }
         temper += amount;
     }
 
@@ -252,12 +259,25 @@ public class EnemyCombat : MonoBehaviour
 
     public IEnumerator PassiveTemperReduction()
     {
+        if (isEnraged)
+        {
+            yield break;
+        }
         yield return new WaitForSeconds(2f);
         while (true)
         {
             temper -= 0.02f * Time.deltaTime;
             yield return null;
         }
+        
+    }
+
+    IEnumerator Enraged()
+    {
+        isEnraged = true;
+        yield return new WaitForSeconds(5);
+        isEnraged = false;
+        temper = 1.99f;
     }
 
 }
