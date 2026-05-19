@@ -23,8 +23,6 @@ public class EnemyCombat : MonoBehaviour
     public float attackCooldown = 2f;
     public float aggression = 0f;
     public float attackThreshold = 0f;
-    //public float maxHealth;
-    //public float currentHealth;
     public int attackDmg = 1;
     public Actor actor;
 
@@ -274,10 +272,13 @@ public class EnemyCombat : MonoBehaviour
 
     IEnumerator Enraged()
     {
+        int storedDmg = attackDmg;
         isEnraged = true;
-        yield return new WaitForSeconds(5);
+        attackDmg += attackDmg / 2;
+        yield return new WaitForSeconds(10);
         isEnraged = false;
-        temper = 1.99f;
+        attackDmg = storedDmg;
+        temper = 1f;
     }
 
 }

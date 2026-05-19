@@ -27,6 +27,11 @@ public class Actor : MonoBehaviour
         enemyCombat.ModifyTemper(floatAmount * 0.05f);
         enemyCombat.RestartTemperReduction();
 
+        if (enemyCombat.isEnraged)
+        {
+            amount = amount * 2;
+        }
+
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
 

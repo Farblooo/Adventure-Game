@@ -1,5 +1,7 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 
 public class DashScript : MonoBehaviour
@@ -19,8 +21,16 @@ public class DashScript : MonoBehaviour
 
     float normalFOV = 70f;
     float dashFOV = 95f;
-
     float fovSpeed = 2f;
+
+    bool isBackDashing = false;
+    Coroutine currentDashRoutine;
+    Coroutine backDashRoutine;
+
+    [Header("Dash Distance")]
+    public float forwardDashDistance = 10f;
+    public float sideDashDistance = 20f;
+    public float backdashDistance = 6f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,6 +54,11 @@ public class DashScript : MonoBehaviour
         {
             cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, normalFOV, Time.deltaTime * fovSpeed);
         }
+
+        if (Input.GetKey(KeyCode.Mouse0) && isBackDashing)
+        {
+            currentDashRoutine = StartCoroutine(DashCoroutine(playerTransform.forward, forwardDashDistance));
+        }
     }
 
     void DashDirection()
@@ -51,37 +66,44 @@ public class DashScript : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) //determine dash direction
         {
             currentDashType = dashType.sideDash;
-            StartCoroutine(DashCoroutine(-playerTransform.right)); //left dash
+            currentDashRoutine = StartCoroutine(DashCoroutine(-playerTransform.right, sideDashDistance)); //left dash
         }
         else if (Input.GetKey(KeyCode.S))
         {
+            isBackDashing = true;
             currentDashType = dashType.backDash;
-            StartCoroutine(DashCoroutine(-playerTransform.forward));//back dash
+            currentDashRoutine = StartCoroutine(DashCoroutine(-playerTransform.forward, backdashDistance));//back dash
         }
         else if (Input.GetKey(KeyCode.D))
         {
             currentDashType = dashType.sideDash;
-            StartCoroutine(DashCoroutine(playerTransform.right));//right dash
+            currentDashRoutine = StartCoroutine(DashCoroutine(playerTransform.right, sideDashDistance));//right dash
         }
         else //if no direction is pressed then forward will be the default dash
         {
             currentDashType = dashType.forwardDash;
-            StartCoroutine(DashCoroutine(playerTransform.forward));
+            currentDashRoutine = StartCoroutine(DashCoroutine(playerTransform.forward, forwardDashDistance));
         }
     }
 
-    IEnumerator DashCoroutine(Vector3 direction)
+    IEnumerator DashCoroutine(Vector3 direction, float dashDistance)
     {
+        if (currentDashRoutine != null)
+        {
+            StopCoroutine(currentDashRoutine);
+        }
+
         canDash = false; 
         dashTimer = 0f;
 
         while (dashTimer < dashDuration) //actual dash
         {
-            playerTransform.position += direction * dashSpeed * Time.deltaTime;
+            playerTransform.position += direction * dashDistance * Time.deltaTime;
             dashTimer += Time.deltaTime;
             yield return null;
         }
         isDashing = false;
+        isBackDashing = false;
         yield return new WaitForSeconds(dashCoolDown); //put dash on cooldown
         canDash = true;
     }
