@@ -1880,7 +1880,7 @@ MonoBehaviour:
   playerMovement: {fileID: 0}
   playerParryandblock: {fileID: 1304204223}
   attackDistance: 3
-  attackDelay: 0.4
+  attackDelay: 0.2
   attackSpeed: 1.2
   attackDmg: 1
   attackLayer:
@@ -1892,6 +1892,7 @@ MonoBehaviour:
   finishChargedSound: {fileID: 8300000, guid: 3df00f50f45f23645ad4a945bec74e84, type: 3}
   readyToAttack: 1
   isCharging: 0
+  AttackID: 0
   swordRenderer: {fileID: 0}
   changeColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!82 &1304204219
@@ -2435,6 +2436,7 @@ GameObject:
   - component: {fileID: 1407736774}
   - component: {fileID: 1407736775}
   - component: {fileID: 1407736776}
+  - component: {fileID: 1407736777}
   m_Layer: 7
   m_Name: Testing_Dummy
   m_TagString: Enemy
@@ -2555,6 +2557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Actor
   enemyCombat: {fileID: 1407736775}
   healthFill: {fileID: 31912081}
+  enemydefense: {fileID: 1407736777}
   currentHealth: 0
   maxHealth: 10
 --- !u!114 &1407736774
@@ -2627,10 +2630,25 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 1
+  m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1407736777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407736768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d758557d4ab39448cc5688a52c6e9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Enemydensivemechanic
+  enemyCombat: {fileID: 1407736775}
+  combatscript: {fileID: 1304204218}
+  isInvincible: 0
 --- !u!1 &1691849524
 GameObject:
   m_ObjectHideFlags: 0

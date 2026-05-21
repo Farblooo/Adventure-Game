@@ -7,6 +7,7 @@ public class Actor : MonoBehaviour
 {
     public EnemyCombat enemyCombat;
     public UnityEngine.UI.Image healthFill;
+    public Enemydensivemechanic enemydefense;
     public float currentHealth;
     public float maxHealth;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -23,6 +24,8 @@ public class Actor : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+        if (enemydefense.isInvincible) { return; }
+
         float floatAmount = amount;
         enemyCombat.ModifyTemper(floatAmount * 0.05f);
         enemyCombat.RestartTemperReduction();

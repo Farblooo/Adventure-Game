@@ -50,7 +50,7 @@ public class CombatScript : MonoBehaviour
     float currentCharge = 0f;
     float chargeTime = 1f;
     float standardSpeed;
-
+    public float AttackID = 0;
 
     //==================//
     //SWORD COLOR CHANGE//
@@ -160,8 +160,10 @@ public class CombatScript : MonoBehaviour
         }
     }
 
+
     public void Attack()
     {
+        AttackID++;
         readyToAttack = false;
         attacking = true;
         attackDmg = 1;
