@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -7,6 +8,8 @@ public class Enemydensivemechanic : MonoBehaviour
     public EnemyCombat enemyCombat;
     public CombatScript combatscript;
     public bool isInvincible = false;
+    public Transform enemyTransform;
+    public Transform playerTransform;
 
     Coroutine dodgeCoroutine;
 
@@ -22,20 +25,39 @@ public class Enemydensivemechanic : MonoBehaviour
     void Update()
     {
         if (enemyCombat.isEnraged) { return; }
-        if (combatscript.AttackID != lastSeenAttackID)
+        if (combatscript.AttackID != lastSeenAttackID && enemyCombat.Distance <= 5)
         {
             if (dodgeCoroutine != null) { StopCoroutine(dodgeCoroutine); }
             dodgeCoroutine = StartCoroutine(DodgeRoutine());
             lastSeenAttackID = combatscript.AttackID;
+            Debug.Log("enemy tried to dodge");
         }
     }
 
     IEnumerator DodgeRoutine()
     {
-        Debug.Log("Player fired a attack");
+        int RandomNum = UnityEngine.Random.Range(0, 10);
+        if (RandomNum < 7) { yield break; }
+        enemyCombat.readyToAttack = false;
         yield return new WaitForSeconds(0.1f);
         isInvincible = true;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.45f);
         isInvincible = false;
+        enemyCombat.readyToAttack = true;
+        if (enemyCombat.aggression < enemyCombat.attackThreshold)
+        {
+            RandomNum = UnityEngine.Random.Range(0, 3);
+            switch (RandomNum)
+            {
+                case 0:
+                    enemyCombat.Attack();
+                    break;
+                case 1:
+                    enemyCombat.ProjectileAttack();
+                    break;
+                case 2:
+                    break;
+            }
+        }
     }
 }

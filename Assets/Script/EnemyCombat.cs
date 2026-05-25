@@ -29,10 +29,10 @@ public class EnemyCombat : MonoBehaviour
     Vector3 enemyPos;
     Vector3 playerPos;
     Vector3 direction;
-    float Distance;
+    public float Distance;
     float normalWalkSpeed;
     float projectileAggression;
-    bool readyToAttack = true;
+    public bool readyToAttack = true;
     bool isAttacking = false;
 
     //------//
@@ -119,7 +119,7 @@ public class EnemyCombat : MonoBehaviour
 
     }
 
-    void Attack()
+    public void Attack()
     {
         currentAttackType = AttackType.Strike;
         isAttacking = true;
@@ -136,7 +136,7 @@ public class EnemyCombat : MonoBehaviour
         attackThreshold = 0f;
     }
 
-    void ProjectileAttack()
+    public void ProjectileAttack()
     {
         currentAttackType = AttackType.Projectile;
         isAttacking = true;
