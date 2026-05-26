@@ -43,6 +43,8 @@ public class EnemyCombat : MonoBehaviour
     public Image temperFill;
     public bool isEnraged = false;
     Coroutine passiveTemperReductionCoroutine;
+    public AudioSource audioSource;
+    public AudioClip enragedSoundEffect;
 
     //-------//
     //TESTING//
@@ -107,11 +109,11 @@ public class EnemyCombat : MonoBehaviour
 
         if (aggression >= attackThreshold / 100f && Distance <= 5 && readyToAttack) //if aggression is higher than randomly generated threshold then the enemy would attack
         {
-            Attack();
+            Attack(0.4f);
         }
         if (projectileAggression >= attackThreshold / 100 && Distance >= 7 && readyToAttack)
         {
-            ProjectileAttack();
+            ProjectileAttack(0.3f);
         }
 
         aggroFill.fillAmount = aggression;
@@ -119,15 +121,15 @@ public class EnemyCombat : MonoBehaviour
 
     }
 
-    public void Attack()
+    public void Attack(float AttackDelay)
     {
         currentAttackType = AttackType.Strike;
         isAttacking = true;
         readyToAttack = false;
 
         Debug.Log("Enemy tried to strike attack!");
-        Invoke(nameof(EnableHitbox), 0.4f); //attack takes 0.4 second to come out and attack stay active for 0.2 second
-        Invoke(nameof(DisableHitbox), 0.6f); //disable attack after 0.2 second
+        Invoke(nameof(EnableHitbox), AttackDelay); //attack takes 0.4 second to come out and attack stay active for 0.2 second
+        Invoke(nameof(DisableHitbox), AttackDelay + 0.2f); //disable attack after 0.2 second
         Invoke(nameof(ResetAttack), attackCooldown);
         StartCoroutine(FlashRoutine(Color.red)); //indicate when enemy attack
         StartCoroutine(AttackLeapAnimation());
@@ -136,14 +138,14 @@ public class EnemyCombat : MonoBehaviour
         attackThreshold = 0f;
     }
 
-    public void ProjectileAttack()
+    public void ProjectileAttack(float ProjectileAttackDelay)
     {
         currentAttackType = AttackType.Projectile;
         isAttacking = true;
         readyToAttack = false;
 
         Debug.Log("Enemy tried to throw a projectile attack!");
-        Invoke(nameof(FireProjectile), 0.3f); //projectile takes 0.3 seconds to come out
+        Invoke(nameof(FireProjectile), ProjectileAttackDelay); //projectile takes 0.3 seconds to come out
         Invoke(nameof(ResetAttack), attackCooldown);
         StartCoroutine(FlashRoutine(Color.green));
 
@@ -272,6 +274,7 @@ public class EnemyCombat : MonoBehaviour
 
     IEnumerator Enraged()
     {
+        audioSource.PlayOneShot(enragedSoundEffect);
         int storedDmg = attackDmg;
         isEnraged = true;
         attackDmg += attackDmg / 2;

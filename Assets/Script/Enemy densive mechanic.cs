@@ -25,7 +25,7 @@ public class Enemydensivemechanic : MonoBehaviour
     void Update()
     {
         if (enemyCombat.isEnraged) { return; }
-        if (combatscript.AttackID != lastSeenAttackID && enemyCombat.Distance <= 5)
+        if (combatscript.AttackID != lastSeenAttackID && enemyCombat.Distance <= 5 && enemyCombat.readyToAttack)
         {
             if (dodgeCoroutine != null) { StopCoroutine(dodgeCoroutine); }
             dodgeCoroutine = StartCoroutine(DodgeRoutine());
@@ -37,7 +37,7 @@ public class Enemydensivemechanic : MonoBehaviour
     IEnumerator DodgeRoutine()
     {
         int RandomNum = UnityEngine.Random.Range(0, 10);
-        if (RandomNum < 7) { yield break; }
+        if (RandomNum < 5) { yield break; }
         enemyCombat.readyToAttack = false;
         yield return new WaitForSeconds(0.1f);
         isInvincible = true;
@@ -50,10 +50,10 @@ public class Enemydensivemechanic : MonoBehaviour
             switch (RandomNum)
             {
                 case 0:
-                    enemyCombat.Attack();
+                    enemyCombat.Attack(1f);
                     break;
                 case 1:
-                    enemyCombat.ProjectileAttack();
+                    enemyCombat.ProjectileAttack(0.8f);
                     break;
                 case 2:
                     break;
