@@ -12,6 +12,7 @@ public class Enemydensivemechanic : MonoBehaviour
     public Transform playerTransform;
 
     Coroutine dodgeCoroutine;
+    Coroutine heavyAttackDodgeCoroutine;
 
     float lastSeenAttackID;
 
@@ -30,7 +31,6 @@ public class Enemydensivemechanic : MonoBehaviour
             if (dodgeCoroutine != null) { StopCoroutine(dodgeCoroutine); }
             dodgeCoroutine = StartCoroutine(DodgeRoutine());
             lastSeenAttackID = combatscript.AttackID;
-            Debug.Log("enemy tried to dodge");
         }
     }
 

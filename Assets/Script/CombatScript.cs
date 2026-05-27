@@ -52,6 +52,7 @@ public class CombatScript : MonoBehaviour
     float standardSpeed;
     public float AttackID = 0;
 
+
     //==================//
     //SWORD COLOR CHANGE//
     //==================//
@@ -190,6 +191,7 @@ public class CombatScript : MonoBehaviour
 
     public void ChargeAttack()
     {
+        AttackID++;
         readyToAttack = false;
         attacking = true;
         attackDmg = 2;
@@ -222,7 +224,6 @@ public class CombatScript : MonoBehaviour
 
     void AttackRaycast()
     {
-
         if(Physics.Raycast(cam.transform.position, cam.transform.forward, out RaycastHit hit, attackDistance, attackLayer))
         {
             HitTarget(hit.point);
