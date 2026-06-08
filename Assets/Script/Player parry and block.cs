@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEngine;
 
@@ -9,15 +10,15 @@ public class Playerparryandblock : MonoBehaviour
     public Camera cam;
     public AudioSource audioSource;
     public AudioClip parrySoundEffect;
-    Animator animator;
 
     public bool isParrying = false;
 
     public float parryWindow = 1f;
 
-    float parryCoolDown = 1.5f;
+    float parryCoolDown = 1f;
     public bool canParry = true;
 
+    [Header("Render")]
     public Renderer swordRenderer;
     public Color colorChange = Color.deepSkyBlue;
     Color originialColor;
@@ -38,18 +39,26 @@ public class Playerparryandblock : MonoBehaviour
 
     public bool blocking = false;
 
+    [Header("Animation")]
+    public Animator animator;
+
+    public const string PARRY = "Armature_R|Player_Parry_001";
+    public const string PARRY_SUCCESS = "Armature_R|Player_Parry_Success";
+    public const string IDLE = "Armature_R|Player_idle";
+
+    string currentAnimationState;
+    public bool lockedAnimation = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        animator = GetComponentInChildren<Animator>();
-
-        swordRenderer = transform.Find("Main Camera/hand and sword with animations/Cube.001")?.GetComponent<SkinnedMeshRenderer>();
         originialColor = swordRenderer.material.color;
     }
 
     // Update is called once per frame
     void Update()
     {
+        SetAnimations();
         if (Input.GetKeyDown(KeyCode.E) && canParry && combatScript.readyToAttack)
         {
             canParry = false;
@@ -66,8 +75,11 @@ public class Playerparryandblock : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse1) && canParry && combatScript.readyToAttack)
         {
             blocking = true;
-            swordRenderer.material.EnableKeyword("_EMISSION");
-            swordRenderer.material.SetColor("_EmissionColor", Color.brown);
+            foreach (Material mat in swordRenderer.materials)
+            {
+                mat.EnableKeyword("_EMISSION");
+                mat.SetColor("_EmissionColor", Color.green);
+            }
         }
     }
 
@@ -80,8 +92,15 @@ public class Playerparryandblock : MonoBehaviour
     {
         isParrying = true;
 
-        swordRenderer.material.EnableKeyword("_EMISSION");
-        swordRenderer.material.SetColor("_EmissionColor", colorChange);
+        ChangeAnimationState(PARRY);
+        lockedAnimation = true;
+        Invoke(nameof(UnlockAnimation), 2.3f);
+
+        foreach (Material mat in swordRenderer.materials)
+        {
+            mat.EnableKeyword("_EMISSION");
+            mat.SetColor("_EmissionColor", colorChange);
+        }
 
         yield return new WaitForSeconds(parryWindow);
 
@@ -109,6 +128,8 @@ public class Playerparryandblock : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(ParrySlowDown());
         audioSource.PlayOneShot(parrySoundEffect);
+        UnlockAnimation();
+        ChangeAnimationState(PARRY_SUCCESS);
     }
 
     public void SuccessfulParryStrike()
@@ -118,6 +139,7 @@ public class Playerparryandblock : MonoBehaviour
         StopAllCoroutines();
         StartCoroutine(ParrySlowDown());
         audioSource.PlayOneShot(parrySoundEffect);
+        ChangeAnimationState(PARRY_SUCCESS);
     }
 
     IEnumerator ParrySlowDown()
@@ -136,8 +158,24 @@ public class Playerparryandblock : MonoBehaviour
 
     }
 
-    //--------//
-    //BLOCKING//
-    //--------//
+    public void ChangeAnimationState(string newState)
+    {
+        if (currentAnimationState == newState) return; //stop the same animation from interrupting itself
 
+        currentAnimationState = newState;
+        animator.CrossFadeInFixedTime(currentAnimationState, 0.1f);
+    }
+
+    void SetAnimations()
+    {
+        if (combatScript.readyToAttack && canParry && !lockedAnimation)
+        {
+            ChangeAnimationState(IDLE);
+        }
+    }
+
+    void UnlockAnimation()
+    {
+        lockedAnimation = false;
+    }
 }

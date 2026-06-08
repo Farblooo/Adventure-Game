@@ -24,7 +24,6 @@ public class Actor : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
-        if (enemydefense.isInvincible) { return; }
 
         float floatAmount = amount;
         enemyCombat.ModifyTemper(floatAmount * 0.05f);

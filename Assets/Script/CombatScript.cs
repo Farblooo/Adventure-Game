@@ -15,15 +15,15 @@ public class CombatScript : MonoBehaviour
     //=========//
     //ANIMATION//
     //=========//
-    Animator animator;
+    public Animator animator;
 
-    public const string IDLE = "Player_idle";
+    public const string IDLE = "Armature_R|Player_idle";
     public const string ATTACK1 = "Player_Sword_Swing1";
     public const string ATTACK2 = "Player_Sword_Swing2";
-    public const string ATTACK1WINDUP = "Player_Sword_Swing1_001";
-    public const string ATTACK1RELEASE = "Player_Sword_Swing1_Release";
-    public const string ATTACK2WINDUP = "Player_Sword_Swing2_Windup";
-    public const string ATTACK2RELEASE = "Player_Sword_Swing2_002";
+    public const string ATTACK1WINDUP = "Armature_R|Player_Sword_Slash_1_windup";
+    public const string ATTACK1RELEASE = "Armature_R|Player_Sword_Slash_1_recovery";
+    public const string ATTACK2WINDUP = "Armature_R|Player_Sword_Slash_2_windup";
+    public const string ATTACK2RELEASE = "Armature_R|Player_Sword_Slash_2_recovery";
 
     string currentAnimationState;
 
@@ -66,10 +66,12 @@ public class CombatScript : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
-        animator = GetComponentInChildren<Animator>();
-        swordRenderer = transform.Find("Main Camera/hand and sword with animations/Cube.001")?.GetComponent<SkinnedMeshRenderer>();
 
-        originalColor = swordRenderer.material.color;
+        if (swordRenderer == null)
+        {
+            Debug.Log("Sword render not found!");
+        }
+        //originalColor = swordRenderer.material.color;
 
         playerMovement = GetComponent<PlayerMovement>();
 
@@ -142,13 +144,19 @@ public class CombatScript : MonoBehaviour
             chargePercentage = (currentCharge - 0.2f) / chargeTime;
             chargePercentage = Mathf.Clamp01(chargePercentage);
 
-            swordRenderer.material.EnableKeyword("_EMISSION");
-            swordRenderer.material.SetColor("_EmissionColor", changeColor * chargePercentage * 1.8f);
+            foreach (Material mat in swordRenderer.materials)
+            {
+                mat.EnableKeyword("_EMISSION");
+                mat.SetColor("_EmissionColor", changeColor * chargePercentage * 1.8f);
+            }
         }
         else if (!playerParryandblock.isParrying)
         {
-            swordRenderer.material.color = originalColor;
-            swordRenderer.material.SetColor("_EmissionColor", Color.black);
+            foreach (Material mat in swordRenderer.materials)
+            {
+                //swordRenderer.material.color = originalColor;
+                mat.SetColor("_EmissionColor", Color.black);
+            }
         }
 
         if (isCharging)
@@ -164,6 +172,7 @@ public class CombatScript : MonoBehaviour
 
     public void Attack()
     {
+        playerParryandblock.lockedAnimation = false;
         AttackID++;
         readyToAttack = false;
         attacking = true;
@@ -191,6 +200,7 @@ public class CombatScript : MonoBehaviour
 
     public void ChargeAttack()
     {
+        playerParryandblock.lockedAnimation = false;
         AttackID++;
         readyToAttack = false;
         attacking = true;
@@ -249,12 +259,12 @@ public class CombatScript : MonoBehaviour
         if (currentAnimationState == newState) return; //stop the same animation from interrupting itself
 
         currentAnimationState = newState;
-        animator.CrossFadeInFixedTime(currentAnimationState, 0.2f);
+        animator.CrossFadeInFixedTime(currentAnimationState, 0.1f);
     }
 
     void SetAnimations()
     {
-        if(!attacking)
+        if(readyToAttack && playerParryandblock.canParry && !playerParryandblock.lockedAnimation)
         {
             ChangeAnimationState(IDLE);
         }
