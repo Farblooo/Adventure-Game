@@ -51,6 +51,13 @@ public class EnemyCombat : MonoBehaviour
     //-------//
     public Image aggroFill;
 
+    [Header("Animation")]
+    public const string ATTACK = "Armature|Snake_Attack_001";
+    public const string PROJECTILE = "Armature|Snake_Projectile";
+
+    [Header("Custom enemy setting")]
+    public float CustomEnemyAttackDelay;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -123,13 +130,16 @@ public class EnemyCombat : MonoBehaviour
 
     public void Attack(float AttackDelay)
     {
+        enemyMovement.lockedAnimation = true;
+        enemyMovement.ChangeAnimationState(ATTACK);
+        Invoke(nameof(EnemyMovementUnlockAnimation), 1f);
         currentAttackType = AttackType.Strike;
         isAttacking = true;
         readyToAttack = false;
 
         Debug.Log("Enemy tried to strike attack!");
-        Invoke(nameof(EnableHitbox), AttackDelay); //attack takes 0.4 second to come out and attack stay active for 0.2 second
-        Invoke(nameof(DisableHitbox), AttackDelay + 0.2f); //disable attack after 0.2 second
+        Invoke(nameof(EnableHitbox), AttackDelay + CustomEnemyAttackDelay); //attack takes 0.4 second to come out and attack stay active for 0.2 second
+        Invoke(nameof(DisableHitbox), AttackDelay + 0.2f + CustomEnemyAttackDelay); //disable attack after 0.2 second
         Invoke(nameof(ResetAttack), attackCooldown);
         StartCoroutine(FlashRoutine(Color.red)); //indicate when enemy attack
         StartCoroutine(AttackLeapAnimation());
@@ -140,6 +150,9 @@ public class EnemyCombat : MonoBehaviour
 
     public void ProjectileAttack(float ProjectileAttackDelay)
     {
+        enemyMovement.lockedAnimation = true;
+        enemyMovement.ChangeAnimationState(PROJECTILE);
+        Invoke(nameof(EnemyMovementUnlockAnimation), 1.3f);
         currentAttackType = AttackType.Projectile;
         isAttacking = true;
         readyToAttack = false;
@@ -284,4 +297,8 @@ public class EnemyCombat : MonoBehaviour
         temper = 1f;
     }
 
+    public void EnemyMovementUnlockAnimation()
+    {
+        enemyMovement.UnlockAnimation();
+    }
 }

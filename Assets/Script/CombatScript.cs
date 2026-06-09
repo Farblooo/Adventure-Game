@@ -11,6 +11,7 @@ public class CombatScript : MonoBehaviour
     public AudioSource audioSource;
     public PlayerMovement playerMovement;
     public Playerparryandblock playerParryandblock;
+    public DashScript dashScript;
 
     //=========//
     //ANIMATION//
@@ -24,6 +25,7 @@ public class CombatScript : MonoBehaviour
     public const string ATTACK1RELEASE = "Armature_R|Player_Sword_Slash_1_recovery";
     public const string ATTACK2WINDUP = "Armature_R|Player_Sword_Slash_2_windup";
     public const string ATTACK2RELEASE = "Armature_R|Player_Sword_Slash_2_recovery";
+    public const string ATTACKTHRUST = "Armature_R|Player_Foward_thrust";
 
     string currentAnimationState;
 
@@ -185,7 +187,11 @@ public class CombatScript : MonoBehaviour
         audioSource.PlayOneShot(swordSwing);
         audioSource.pitch = 1f;
 
-        if (attackCount == 0)
+        if (dashScript.isBackDashing)
+        {
+            ChangeAnimationState(ATTACKTHRUST);
+        }
+        else if (attackCount == 0)
         {
             ChangeAnimationState(ATTACK1RELEASE);
             attackCount++;

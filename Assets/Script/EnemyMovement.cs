@@ -24,7 +24,16 @@ public class EnemyMovement : MonoBehaviour
     float moveTimer = 0f;
     bool isStrafing = false;
     bool isGrounded;
-    
+
+    [Header("Animation")]
+
+    public Animator animator;
+
+    public const string IDLE = "Armature|Snake_Idle";
+    public const string WALK = "Armature|Snake_Attack (2)";
+
+    string currentAnimationState;
+    public bool lockedAnimation = false;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -48,16 +57,28 @@ public class EnemyMovement : MonoBehaviour
             if (Distance > 8 && Distance < 18) //if the enemy is not too far or too close then move closer to player
             {
                 currentDirection = Direction.normalized;
+                if (currentAnimationState != WALK && !lockedAnimation)
+                {
+                    ChangeAnimationState(WALK);
+                }
                 //EnemyPosition += Direction.normalized * walkspeed * Time.deltaTime; //normalize gives direction
             }
             else if (Distance <= 8 && Distance > 5) //slows down if closer to player
             {
                 currentDirection = Direction.normalized / 2;
+                if (currentAnimationState != WALK && !lockedAnimation)
+                {
+                    ChangeAnimationState(WALK);
+                }
                 //EnemyPosition += Direction.normalized * (walkspeed / 2) * Time.deltaTime;
             }
             else if (Distance < 3) //walk back if too too close
             {
                 currentDirection = -Direction.normalized / 2;
+                if (currentAnimationState != WALK && !lockedAnimation)
+                {
+                    ChangeAnimationState(WALK);
+                }
                 //EnemyPosition -= Direction.normalized * (walkspeed / 2) * Time.deltaTime;
             }
         }
@@ -81,6 +102,11 @@ public class EnemyMovement : MonoBehaviour
             }
         }
 
+        if (Distance >= 18 && currentAnimationState != IDLE)
+        {
+            ChangeAnimationState(IDLE);
+        }
+
         EnemyPosition += currentDirection * walkspeed * Time.deltaTime;
 
         moveTimer -= Time.deltaTime;
@@ -95,5 +121,19 @@ public class EnemyMovement : MonoBehaviour
 
         Direction.y = 0f;
         transform.rotation = Quaternion.LookRotation(Direction); //make the enemy always look at player
+
+    }
+
+    public void ChangeAnimationState(string newState)
+    {
+        //if (currentAnimationState == newState) return; //stop the same animation from interrupting itself
+
+        currentAnimationState = newState;
+        animator.CrossFadeInFixedTime(currentAnimationState, 0.1f);
+    }
+
+    public void UnlockAnimation()
+    {
+        lockedAnimation = false;
     }
 }

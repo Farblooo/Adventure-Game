@@ -23,7 +23,7 @@ public class DashScript : MonoBehaviour
     float dashFOV = 95f;
     float fovSpeed = 2f;
 
-    bool isBackDashing = false;
+    public bool isBackDashing = false;
     Coroutine currentDashRoutine;
     Coroutine backDashRoutine;
 
@@ -58,6 +58,10 @@ public class DashScript : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse0) && isBackDashing)
         {
             currentDashRoutine = StartCoroutine(DashCoroutine(playerTransform.forward, forwardDashDistance));
+            if (combatScript.readyToAttack)
+            {
+                combatScript.Attack();
+            }
         }
     }
 

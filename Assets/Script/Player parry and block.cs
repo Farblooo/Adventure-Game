@@ -20,7 +20,7 @@ public class Playerparryandblock : MonoBehaviour
 
     [Header("Render")]
     public Renderer swordRenderer;
-    public Color colorChange = Color.deepSkyBlue;
+    public Color colorChange = new Color(0.2f, 0.4f, 1.0f);
     Color originialColor;
     float changePercentage;
 
@@ -45,6 +45,7 @@ public class Playerparryandblock : MonoBehaviour
     public const string PARRY = "Armature_R|Player_Parry_001";
     public const string PARRY_SUCCESS = "Armature_R|Player_Parry_Success";
     public const string IDLE = "Armature_R|Player_idle";
+    public const string BLOCK = "Armature_R|Player_Block";
 
     string currentAnimationState;
     public bool lockedAnimation = false;
@@ -75,10 +76,11 @@ public class Playerparryandblock : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse1) && canParry && combatScript.readyToAttack)
         {
             blocking = true;
+            ChangeAnimationState(BLOCK);
             foreach (Material mat in swordRenderer.materials)
             {
                 mat.EnableKeyword("_EMISSION");
-                mat.SetColor("_EmissionColor", Color.green);
+                mat.SetColor("_EmissionColor", Color.green * 0.1f);
             }
         }
     }
@@ -99,7 +101,7 @@ public class Playerparryandblock : MonoBehaviour
         foreach (Material mat in swordRenderer.materials)
         {
             mat.EnableKeyword("_EMISSION");
-            mat.SetColor("_EmissionColor", colorChange);
+            mat.SetColor("_EmissionColor", colorChange * 0.2f);
         }
 
         yield return new WaitForSeconds(parryWindow);
